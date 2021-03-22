@@ -12,8 +12,9 @@ function find() {
  */
 function findBy(filter) {
   return db('users')
-    .where('username', filter);
-}
+    .where('username', filter)
+    .orderBy('user_id');
+} // Returns an EMPTY ARRAY if no user w/ that username
 
 /**
   resolves to the user { user_id, username } with the given user_id
@@ -22,7 +23,7 @@ function findById(user_id) {
   return db('users')
     .where('user_id', user_id)
     .first();
-}
+} // Returns UNDEFINED if no user w/ that ID
 
 /**
   resolves to the newly inserted user { user_id, username }
@@ -30,8 +31,8 @@ function findById(user_id) {
 function add(user) {
   return db('users')
     .insert(user)
-    .then(newUser => {
-      return findBy(newUser.username);
+    .then(id => {
+      return findById(id);
     });
 }
 
