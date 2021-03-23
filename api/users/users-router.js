@@ -5,6 +5,8 @@ const router = express.Router();
 
 const User = require('./users-model');
 
+const { restricted } = require('../auth/auth-middleware')
+
 /**
   [GET] /api/users
 
@@ -28,7 +30,7 @@ const User = require('./users-model');
   }
  */
 
-  router.get('/', (req, res, next) => { //eslint-disable-line
+  router.get('/', restricted, (req, res, next) => { //eslint-disable-line
     User.find()
       .then(users => {
         res.status(200).json(users);
